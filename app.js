@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import InvoiceItems from './invoiceitems';
 import ajax from './ajax';
 
@@ -15,32 +16,27 @@ export default class Application extends React.Component{
 
 	componentDidMount(){
 		ajax.getAll()
-			.then(data => this.setState({invoiceitems: data}))
-			.catch();
+			.then(data => this.setState({invoiceitems: data}));
 	}
 
-	onAdd(item, qty, price){
-		ajax.add(item, qty, price)
-			.then(data => {this.setState({invoiceitems: this.state.invoiceitems.concat([data])})})
-			.catch();
+	onAdd(rec){
+		this.setState({invoiceitems: this.state.invoiceitems.concat([rec])});
 	}
 
-	onUpdate(id, item, qty, price){
-		ajax.update(id, item, qty, price)
-			.then(data => this.setState({invoiceitems: this.state.invoiceitems}))
-			.catch();
+	onUpdate(rec){
+		this.setState({
+			invoiceitems: this.state.invoiceitems.map(r => r.id == rec.id ? rec : r)
+		});
 	}
 
 	onDelete(id){
-		ajax.delete(id)
-			.then(data => this.setState({invoiceitems: this.state.invoiceitems.filter(e => e.id != id)}))
-			.catch();
+		this.setState({invoiceitems: this.state.invoiceitems.filter(e => e.id != id)});
 	}
 
 	render() {
 		return (
 			<div>
-				<h1>IT Glue invoice editor</h1>
+				<h1>Invoice editor</h1>
 				<InvoiceItems onAdd={this.onAdd}
 					onUpdate={this.onUpdate} 
 					onDelete={this.onDelete} 
@@ -49,6 +45,12 @@ export default class Application extends React.Component{
 		);
 	}
 }
+
+ReactDOM.render(
+	<Application />,
+	document.getElementById('main-container')
+);
+
 
 
 

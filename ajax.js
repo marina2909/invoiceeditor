@@ -1,5 +1,6 @@
-let invoiceitems = [{id: 1, item: 'dsd', qty: 23, price: 322}];
-let maxid = 1;
+let invoiceitems = [{id: 1, item: 'Widget', qty: 2, price: 20},
+					{id: 2, item: 'Cog', qty: 2, price: 31.98}];
+let maxid = 2;
 export default{
 	update: function(id, item, qty, price){
 		return new Promise(function(resolve, reject){

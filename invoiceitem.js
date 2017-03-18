@@ -1,25 +1,48 @@
 import React from 'react';
+import ajax from './ajax';
 
 export default class InvoiceItem extends React.Component{
 	constructor(props){
 		super(props);
 		this.state = { 
-			id: props.rec.id || '',
-			item: props.rec.item || '',
-			qty: props.rec.qty || '',
-			price: props.rec.price || ''
+			id: props.rec.id||'',
+			item: props.rec.item||'',
+			qty: props.rec.qty||'',
+			price: props.rec.price||''
 		};
 		this.onAddClick = this.onAddClick.bind(this); 
+		this.onUpdateClick = this.onUpdateClick.bind(this);
+		this.onDeleteClick = this.onDeleteClick.bind(this);
 	}
 
 	onAddClick(){
-		this.props.onAdd(this.state.item, this.state.qty, this.state.price);
-		this.setState({
-			id: '',
-			item: '',
-			qty: '',
-			price: ''
-		});
+		if (!this.state.item || !(this.state.qty && this.state.qty>=0) || !(this.state.price && this.state.price>=0)){
+			alert('Values are not valid');
+			return;
+		}
+		ajax.add(this.state.item, this.state.qty, this.state.price)
+			.then(data => this.props.onAdd(data))
+			.then(()=>{
+				this.setState({
+					id: '',
+					item: '',
+					qty: '',
+					price: ''
+				});
+			});
+	}
+
+	onUpdateClick(){
+		if (!this.state.item || !(this.state.qty && this.state.qty>=0) || !(this.state.price && this.state.price>=0)){
+			alert('Values are not valid');
+			return;
+		}
+		ajax.update(this.state.id, this.state.item, this.state.qty, this.state.price)
+			.then(data => this.props.onUpdate(data));
+	}
+
+	onDeleteClick(){
+		ajax.delete(this.state.id).then(data => this.props.onDelete(data));
 	}
 
 	render(){
@@ -43,8 +66,8 @@ export default class InvoiceItem extends React.Component{
 							onChange={evt => this.setState({price: evt.target.value})}/>
 					</div>
 				</td>
-				<td className="col-md-3">
-					${ this.state.price*this.state.qty ? (this.state.price*this.state.qty).toFixed(2) : 0}
+				<td className="col-md-3 vertical-middle">
+					${(this.state.price*this.state.qty).toFixed(2)}
 				</td>
 					{ 
 						this.props.onAdd ? 
@@ -54,12 +77,14 @@ export default class InvoiceItem extends React.Component{
 							</button>
 						</td>:
 						<td className="col-md-2">
-							<button type="button" className="btn btn-primary" 
-								onClick={rec => this.props.onUpdate(this.state.id, this.state.item, this.state.qty, this.state.price)}>
-								<span className="glyphicon glyphicon-remove-save"></span> Save
-							</button>
+							<span className="separator-right-2">
+								<button type="button" className="btn btn-primary" 
+									onClick={this.onUpdateClick}>
+									<span className="glyphicon glyphicon-remove-save"></span> Save
+								</button>
+							</span>
 							<button type="button" className="btn btn-danger" 
-								onClick={rec => this.props.onDelete(this.state.id)}>
+								onClick={this.onDeleteClick}>
 								<span className="glyphicon glyphicon-remove-sign"></span> Delete
 							</button>
 						</td>
@@ -68,4 +93,8 @@ export default class InvoiceItem extends React.Component{
 		)
 	}
 }
+
+InvoiceItem.defaultProps = {
+	rec: {}
+};
 

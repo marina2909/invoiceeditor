@@ -1,4 +1,13 @@
 .table-container{
 	margin-top: 5%;
 }
+.separator-right-2{
+	margin-right: 2px;
+}
+.separator-top-10{
+	margin-top: 10px;
+}
+.vertical-middle{
+	vertical-align: middle;
+}
 
