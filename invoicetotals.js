@@ -23,13 +23,13 @@ export default class InvoiceTotals extends React.Component{
 				<div className="col-md-4 col-md-offset-8">
 				<div className="panel panel-default">
 					<div className="panel-body">
-						Subtotal ${Math.round(this.getTotal(),2)}
+						Subtotal ${this.getTotal().toFixed(2)}
 					</div>
 					<div className="panel-body">
-						Tax ${Math.round(this.getTax(),2)}
+						Tax ${this.getTax().toFixed(2)}
 					</div>
 					<div className="panel-body">
-						Subtotal ${Math.round(this.getSubtotal(),2)}
+						Subtotal ${this.getSubtotal().toFixed(2)}
 					</div>
 				</div>
 				</div>

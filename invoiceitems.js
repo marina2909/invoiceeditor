@@ -3,7 +3,6 @@ import Invoiceitem from './invoiceitem';
 import InvoiceTotals from './invoicetotals';
 
 export default class extends React.Component{
-	
 	constructor(props){
 		super(props);
 	}
@@ -22,11 +21,11 @@ export default class extends React.Component{
 								<th></th>
 							</tr>
 						</thead>
-						<tbody>
-							<Invoiceitem rec={{}} onAdd={this.props.onAdd}/>
+						<tbody>	
 							{this.props.invoiceitems.map(rec=>(
-								<Invoiceitem rec={rec} onUpdate={this.props.onUpdate} onDelete={this.props.onDelete}/>
+								<Invoiceitem key={rec.id} rec={rec} onUpdate={this.props.onUpdate} onDelete={this.props.onDelete}/>
 							))}
+							<Invoiceitem key={-1} rec={{}} onAdd={this.props.onAdd}/>
 						</tbody>
 					</table>
 				</div>
