@@ -35,7 +35,7 @@ export default{
 		return new Promise(function(resolve, reject){
 			setTimeout(function(){
 				resolve(invoiceitems.slice());
-			}, 100);
+			}, 10);
 		});
 	} 
 }

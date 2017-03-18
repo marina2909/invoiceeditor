@@ -2,7 +2,7 @@ var fs = require("fs");
 var browserify = require("browserify");
 var babelify = require("babelify");
 
-browserify({debug: true})
+browserify({debug: false})
 .transform(babelify)
 .require("./app.js", {entry: true})
 .bundle()

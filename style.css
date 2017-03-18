@@ -7,7 +7,7 @@
 .separator-top-10{
 	margin-top: 10px;
 }
-.vertical-middle{
+.table-container table tbody td.vertical-middle{
 	vertical-align: middle;
 }
 
